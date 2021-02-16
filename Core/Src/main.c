@@ -96,7 +96,7 @@ int main(void)
   uint32_t timestamp=0;
   uint32_t timeslimping=0;
   enum{
-	  LED1haftpreiod=500,LED2haftpreiod=1000,samplingtime=100
+	  LED1haftpreiod=500,LED2haftpreiod=1000,samplingtime=10
   };
   /* USER CODE END 2 */
 
@@ -106,8 +106,9 @@ int main(void)
   {
 	if(HAL_GetTick()-timeslimping>=samplingtime){
 	timeslimping=HAL_GetTick();
+
 	switchstate[0]=HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_10);
-	if(switchstate[1]== GPIO_PIN_SET && switchstate==GPIO_PIN_RESET){
+	if(switchstate[1]== GPIO_PIN_SET && switchstate[0]==GPIO_PIN_RESET){
 		if(ledrealhaft==500){
 			ledrealhaft=LED2haftpreiod;
 		}else{
@@ -115,7 +116,7 @@ int main(void)
 		}
 	}
 
-	switchstate[1]=switchstate[0];
+
 
 	if(HAL_GetTick()-timestamp>=ledrealhaft){
 		timestamp=HAL_GetTick();
@@ -125,7 +126,7 @@ int main(void)
 			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
 		}
 	}
-
+	switchstate[1]=switchstate[0];
 
 
 
